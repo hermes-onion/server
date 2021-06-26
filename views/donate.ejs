@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('global/head') %>
+    <title>Hermes - Donation channels</title>
+
+    <style>
+        ul[tos] {
+            margin-top: -.5rem;
+            margin-left: 1rem;
+        }
+
+        li {
+            margin-top: 5px;
+        }
+        p[q] {
+            margin-top: 2rem;
+            margin-left: 0;
+            font-size: 18px;
+        }
+        table {
+            margin-top: -1.2rem;
+        }
+
+        main {
+            padding-bottom: 2rem;
+        }
+
+        a[don] {
+            text-decoration: underline;
+            color:darkslategrey;
+            word-wrap: anywhere;
+        }
+    </style>
+
+    <script src="/pub/qrcode.min.js"></script>
+</head>
+<body>
+    <%- include('header') %>
+    <%- include('sidenav') %>
+
+    <main class="container">
+        <%- include('global/errors') %>
+        
+        <h4>Donations are welcomed!</h4>
+        <p style="font-size:18px">I run the service on my own expense, donations are greatful! 
+        You can help me by sending some coins to the following addresses:</p>
+
+        <% d.forEach((item, index)=>{ %>
+
+            <p q><b><%- index+1 %>) <%- item.type %></b></p>
+            <table>
+                <tr>
+                    <td style="width: 200px"> <div id="<%- item.type %>"></div> </td>
+                    <td> <a don><%- item.addr %></a> </td>
+                </tr>
+            </table>
+            <script>
+                document.getElementById('<%- item.type %>').innerHTML = new QRCode({
+                    content: '<%- item.addr %>',
+                    padding: 0,
+                    width: 170,
+                    height: 170,
+                    ecl: 'Q'
+                }).svg()
+            </script>
+
+        <% }) %>
+    </main>
+
+    <%- include('footer') %>
+</body>
+</html>

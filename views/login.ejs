@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('global/head') %>
+    <title>Hermes - Login</title>
+</head>
+<body>
+
+<%- include('header') %>
+<%- include('sidenav') %>
+
+<main class="container">
+    <%- include('global/errors') %>
+
+
+    <div class="row">
+        <div class="col s12 m6 l6">
+
+            <p class="flow-text">Login</p>
+            <form method="POST">
+
+                <div class="input-field ">
+                    <input placeholder="Username. Min 3 chars, max 128 chars" name="username" type="text" class="validate" maxlength="128" minlength="3" required
+                        value="<%= (typeof original === 'undefined' ? '' : original.username)  %>">
+                    <!-- <label for="usr">Username. Min 3 chars, max 128 chars.</label> -->
+                </div>
+
+                <div class="input-field">
+                    <input placeholder="Password. Min 5 chars, max 64 chars" name="password" type="password" class="validate" maxlength="64" minlength="5" required
+                        value="">
+                    <!-- <label for="pss">Password. Min 5 chars, max 64 chars.</label> -->
+                </div>
+
+                <a href="/recover-password/step1" class="blue-text">Forgot password?</a>
+                <br>
+                <br>
+
+                <div class="row">
+                    <div class="col s6">
+                        <img src="data:image/png;base64,<%- captcha_log %>">
+                    </div>
+                    <div class="col s6">
+                        <div class="input-field">
+                            <input placeholder="Captcha image. CASE-SENSITIVE!" name="captcha_log" type="text" maxlength="5" minlength="5" required>
+                            <!-- <label for="captcha_log">Captcha image. CASE-SENSITIVE!</label> -->
+                        </div>
+
+                        <button class="btn green darken-2 waves-effect waves-light"> Login</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    
+</main>
+
+<%- include('footer') %>
+
+<script>
+    const _ = function(el){
+        return document.getElementById(el)
+    }
+
+    const toast = function(m){
+        M.toast({html:m})
+    }
+</script>
+
+</body>
+</html>

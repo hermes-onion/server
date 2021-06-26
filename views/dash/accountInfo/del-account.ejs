@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./global/head') %>
+    <%- include('./dash/head') %>
+    
+    <title>Hermes - Account deletion</title>
+</head>
+<body>
+    <%- include('./dash/header') %>
+    <%- include('./dash/sidenav') %>
+<main>
+    <%- include('global/errors') %>
+<div class="row">
+<div class="col s12">
+    <p class="flow-text">Are you sure you want to?</p>
+    
+    <form action="/dash/del-account" method="POST">
+
+        <p>This action is irreversible. It will remove your user data, sent messages, 
+            open/closed tickets from system and unlock your username for others to register with.</p>
+
+      <button class="btn red darken-2 waves-effect waves-light">Yes, delete it!</button>
+  </form>
+</div>
+</div>
+</main>
+<%- include('./footer') %>
+
+<script>
+    <%- include('./global/util') %>
+
+</script>
+
+</body>
+</html>

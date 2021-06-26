@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./global/head') %>
+    <%- include('./dash/head') %>
+    
+    <title>Hermes - Account information</title>
+</head>
+<body>
+    <%- include('./dash/header') %>
+    <%- include('./dash/sidenav') %>
+<main>
+    <%- include('global/errors') %>
+    <div class="row">
+        <div class="col s12 m12 l6">
+            <p class="flow-text">Account information</p>
+    
+            <table >
+                <tbody>
+                    <tr>
+                        <td>Username:</td>
+                        <td><code><%- User.username %></code></td>
+                        <td>
+                            <!-- <div class="btn green">Change</div> -->
+                        </td>
+                    </tr>                
+                </tbody>
+                <tbody>
+                    <tr>
+                        <td>Password:</td>
+                        <td colspan="2">
+                            <a class="btn green" href="/dash/account-information/change-password">Change</a>
+                        </td>
+                    </tr>                
+                </tbody>
+
+                <tbody>
+                    <tr>
+                        <td>2FA (<a href="http://7o5hh2f6gdxusghkqphrgwhs3xjqogakmusscbs4ektjv42sqeft4iqd.onion" target="_blank">Tofa</a>):</td>
+                        <% if(User.tofa_token) { %>
+                            <td>
+                                <span class="green-text">Active</span>
+                            </td>
+                            <td>
+                                <a class="btn orange waves-effect" href="/dash/account-information/add-tofa">Update</a>
+                                <a class="btn red waves-effect" href="/dash/unlink-2fa">Delete</a>
+                            </td>
+                        <% } else { %>
+                            <td >
+                                <a class="btn green waves-effect " href="/dash/account-information/add-tofa" >Activate</a>
+                            </td>
+                            <td>
+                                <span class="red-text">Not active!</span>
+                            </td>
+                        <% } %>
+                    </tr>
+                </tbody>
+                <tbody>
+                    <tr>
+                        <td>Created:</td>
+                        <td colspan="2"><code><%- User.created_at %></code></td>
+                    </tr>                
+                </tbody>
+            </table>
+        </div>
+        <div class="col s12 m12 l6">
+            <p class="flow-text">Service information</p>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>API key:</td>
+                        <td style="word-wrap: anywhere;"><code ><%- apiKey %></code></td>
+                        <td><a href="/dash/regenerate-api" class="btn orange waves-effect">Regenerate</a></td>
+                    </tr>                
+                </tbody>
+
+                <tbody>
+                    <tr>
+                        <td>Balance:</td>
+                        <td>$<%- User.balance %></td>
+                        <td><a href="/dash/account-information/fund" class="btn green waves-effect" >Fund account</a></td>
+                    </tr>
+                </tbody>
+
+                <tbody>
+                    <tr>
+                        <td>Remaining SMSs:</td>
+                        <td><%- User.remaining_sms %></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col s12">
+            <p class="flow-text">Actions</p>
+            <a class="btn red waves-effect align-right" href="/dash/account-information/del-account" >Delete account</a>
+
+        </div>
+    </div>
+
+
+
+    <%- include('./dash/accountInfo/changePasswordModal') %>
+    <%- include('./dash/accountInfo/delAccountModal') %>
+    <%- include('./dash/accountInfo/add2faModal') %>
+</main>
+<%- include('./footer') %>
+
+<script>
+    <%- include('./global/util') %>
+
+</script>
+
+</body>
+</html>

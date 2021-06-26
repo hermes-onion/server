@@ -1,0 +1,75 @@
+<footer class="blue darken-2 white-text " >
+    <div class="container ">
+    <div class="row">
+        <% if( typeof User !== 'undefined') { %>
+
+        <% if(User.id === 1) { %>
+        <div class="col s6 m3 hide-on-large-only">
+            <h5>Admin</h5>
+            <ul>
+                <!-- <li><div class="divider"></div></li> -->
+                <li><a class="white-text" href="/dash/admin/users">User Accounts</a></li>
+                <li><a class="white-text" href="/dash/admin/sent-messages">Sent Messages</a></li>
+                <li><a class="white-text" href="/dash/admin/tickets">All tickets</a></li>
+            </ul>
+        </div>
+        <% } %>
+
+        <div class="col s6 m3 hide-on-large-only">
+            <h5>Account</h5>
+            <ul>
+                <li><a class="white-text" href="/dash/account-information">Account information</a></li>
+                <li><a class="white-text" href="/dash/account-information/fund">Fund account</a></li>
+                <li><a class="white-text" href="/dash/logout">Logout</a></li>
+            </ul>
+        </div>
+
+        <div class="col s6 m6 hide-on-large-only">
+            <h5>Services</h5>
+            <ul>
+                <li><a class="white-text" href="/dash/send-demo-sms">Send SMS</a></li>
+                <li><a class="white-text" href="/dash/api-reference">API reference</a></li>
+                <li><a class="white-text" href="/dash/sent-messages">Sent messages</a></li>
+                <% if(User.id !== 1) { %>
+                    <li><a class="white-text" href="/dash/tickets">Support Tickets</a></li>
+                <% } %>
+            </ul>
+        </div>
+
+        <% } else { %>
+            <div class="col s6 m3 hide-on-large-only">
+                <h5>Account</h5>
+                <ul>
+                    <li><a class="white-text" href="/auth/login">Login</a></li>
+                    <li><a class="white-text" href="/auth/register">Register</a></li>
+                </ul>
+            </div>
+
+        <% } %>
+        
+        <div class="col s6 m6">
+            <h5 class="white-text">Sitemap</h5>
+            <ul>
+                <li><a class="grey-text text-lighten-3" href="/faq">FAQ</a></li>
+                <li><a class="grey-text text-lighten-3" href="/donate">Donate</a></li>
+                <li><a class="grey-text text-lighten-3" href="/tos">Terms of service</a></li>
+            </ul>
+        </div>
+        <div class="col s6 m6">
+            <h5>Contact</h5>
+            <ul>
+                <li><a class="grey-text text-lighten-3" href="/dash/tickets" >Support Tickets</a></li>
+                <li><a class="grey-text text-lighten-3" href="https://github.com/hermes-onion" target="_blank">Github</a> <i>(non Onion!)</i></li>
+            </ul>
+        </div>
+    </div>
+    </div>
+
+    <div class="footer-copyright blue darken-3">
+        <div class="container">
+            © 2021 hermes-onion contributors
+            <a class="grey-text text-lighten-4 right" >Logo licensed under CC</a>
+        </div>
+
+    </div>
+</footer>

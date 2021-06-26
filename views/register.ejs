@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('global/head') %>
+    <title>Hermes - Register</title>
+</head>
+<body>
+
+<%- include('header') %>
+<%- include('sidenav') %>
+
+<main class="container">
+    <%- include('global/errors') %>
+
+
+    <div class="row">
+        <div class="col s12 m6 l6">
+
+            <p class="flow-text">Register</p>
+            <form action="/auth/register" method="POST">
+
+                <div class="input-field ">
+                    <input placeholder="Username. Min 3 chars, max 128 chars." name="username" type="text" maxlength="128" minlength="3" required
+                        value="<%= (typeof original === 'undefined' ? '' : original.username)  %>">
+                    <!-- <label for="usr">Username. Min 3 chars, max 128 chars.</label> -->
+                </div>
+
+                <div class="input-field">
+                    <input placeholder="Password. Min 5 chars, max 64 chars." name="password" type="password" maxlength="64" minlength="5" required
+                        value="">
+                    <!-- <label for="pss">Password. Min 5 chars, max 64 chars.</label> -->
+                </div>
+                <label >
+                    <input type="checkbox" name="terms_of_service">
+                    <span>I agree with the&nbsp;</span><a tos href="/tos" target="_blank">Terms of Service</a>
+                </label>
+                <br>
+                <br>
+                <div class="row">
+                    <div class="col s6">
+                        <img src="data:image/png;base64,<%- captcha_reg %>">
+                    </div>
+                    <div class="col s6">
+                        <div class="input-field">
+                            <input placeholder="Captcha image. CASE-SENSITIVE!" name="captcha_reg" type="text" minlength="5" required>
+                            <!-- <label for="captcha_reg">Captcha image. CASE-SENSITIVE!</label> -->
+                        </div>
+
+                        <button class="btn green darken-2 waves-effect waves-light"> Register</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+</main>
+
+<%- include('footer') %>
+
+</body>
+</html>

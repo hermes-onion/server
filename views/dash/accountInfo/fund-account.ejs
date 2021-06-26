@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./global/head') %>
+    <%- include('./dash/head') %>
+    
+    <title>Hermes - Fund account</title>
+    <style>
+        table, tr, td , th{
+            border: 1px solid lightgrey;
+        }
+
+        table {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        table  {
+            width: 300px;
+        }
+
+        pre {
+            text-decoration: underline;
+            font-weight: 900;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+    <%- include('./dash/header') %>
+    <%- include('./dash/sidenav') %>
+<main>
+    <%- include('global/errors') %>
+<div class="row">
+<div class="col s12">
+    <p class="flow-text">Fund account</p>
+
+    <div>Current balance is <b>$<%-  User.balance  %></b>.
+        You can fund the account using Monero (XMR). Table of prices:</div>
+    
+    <table>
+        <tbody>
+            <tr>
+                <td>1 SMS</td>
+                <td>$<%- smsPrice %></td>
+            </tr>
+        </tbody>
+        <tbody>
+            <tr>
+                <td>1 XMR</td>
+                <td>$<%- xmrusd %> (Bitfinex)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div>
+        To fund account send the amount of XMR at below address.
+        Transaction will be recorded and balance updated once tx is confirmed on blockchain.
+        After receiving transaction, this address will change for privacy reasons.
+        You can still update balance via it though.
+    </div>
+
+    <br>
+    <div>Ex: if you want 1 SMS, send ~<%- (smsPrice / xmrusd).toFixed(6) %> XMR</div>
+    <div>If you want 10 SMSs, send ~<%- (smsPrice*10 / xmrusd).toFixed(6) %> XMR</div>
+    <div>If you want 100 SMSs, send ~<%- (smsPrice*100 / xmrusd).toFixed(6) %> XMR</div>
+    <br>
+
+    <div><b>The balance is updated based on exchange rate at the time of tx confirmation! </b>
+        I advise to fund fixed amounts, like $10 because crypto exchange rate is very volatile. </div>
+
+    <pre class="center brown-text"><%- User.winter_address %></pre>
+
+    <br>
+    <div>List of recorded transactions:</div>
+
+    <% if(User.tx_list.length > 0) { %>
+    <table>
+        <% User.tx_list.reverse().forEach((tx, index)=>{ %>
+            <tbody>
+                <tr>
+                    <td><%- index+1 %></td>
+                    <td><code><%- tx %></code> </td>
+                </tr>
+            </tbody>
+        <% }) %>
+    </table>
+    <% } %>
+    
+</div>
+</div>
+</main>
+<%- include('./footer') %>
+
+<script>
+    <%- include('./global/util') %>
+
+</script>
+
+</body>
+</html>

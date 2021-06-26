@@ -1,0 +1,23 @@
+<!-- const errors = < %- ( typeof errors === "undefined" ? "[]" : JSON.stringify(errors)) % >  ;
+errors.forEach(item=>toast(item.message ? item.message : item))
+
+const urlParams = new URLSearchParams(window.location.search);
+const errorsGET = JSON.parse(urlParams.get('errors'))
+if(errorsGET)
+errorsGET.forEach(item=>toast(item.message ? item.message : item)) -->
+
+<% if( typeof errors !== 'undefined' && errors.length > 0) { %>
+    <% if(typeof errors === 'string') { %>
+        <p class="error">
+            <b><%- errors  %> </b>
+        </p>
+    <% } else { %>
+        <!-- if else if else if else .... -->
+        <!-- i feel like a retarded kid -->
+        <% errors.forEach(item=>{ %>
+            <p class="error">
+                <b><%- item.message ? item.message : item %> </b>
+            </p>
+        <% }) %>
+    <% } %>
+<% } %>

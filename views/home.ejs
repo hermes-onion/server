@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('global/head') %>
+
+    <title>Hermes project</title>
+    <style>
+        a[tos] {
+            font-size: 15px
+        }
+
+        main {
+            padding-top: 1rem;
+        }
+
+        a[class="flow-text"]:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<%- include('header') %>
+<%- include('sidenav') %>
+
+<main class="container">
+    <%- include('global/errors') %>
+    
+    <h4 class="hide-on-med-and-down">Send SMS anonymously over Tor!</h4>
+    <h5 class="hide-on-large-only">Send SMS anonymously over Tor!</h5>
+
+
+    <i><p class="flow-text">
+        <i class="material-icons">check</i> Fast<br>
+        <i class="material-icons">check</i> Cheap <span style="font-size: 15px">( $<%- sms_price %>/SMS )</span><br>
+        <i class="material-icons">check</i> Open source<br>
+    </p></i>
+
+    <a href="/auth/register" class="flow-text"> 
+        Sign up and claim <b><%- Math.round(default_credit / sms_price) %></b> free SMSs!</a>
+</main>
+
+
+<%- include('footer') %>
+
+<script>
+    const _ = function(el){
+        return document.getElementById(el)
+    }
+
+    const toast = function(m){
+        M.toast({html:m})
+    }
+
+</script>
+
+</body>
+</html>
