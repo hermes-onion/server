@@ -172,8 +172,6 @@ module.exports = {
      *  Unlinks Tofa 2FA
      */
     async unlink2fa(req, res, next){
-        const routeRedir = "/dash/account-information"
-
         try {
             // destroy previous record
             await TofaTokens.destroy({
@@ -182,9 +180,10 @@ module.exports = {
                 }
             })
 
-            res.send( t('dash/accountInfo/del-account', {
+            res.send( t('dash/accountInfo', {
                 User: await getUser(req.session.user_id),
-                errors: ["2FA unlinked with success!"]
+                errors: ["2FA unlinked with success!"],
+                apiKey: ApiKey.generate(User),
             }) )
         }catch(e){ next(e)}
     },
