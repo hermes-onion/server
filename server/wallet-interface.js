@@ -19,7 +19,7 @@ const generateTokenLoop = function(){
     
     setTimeout(()=>{
         generateTokenLoop()
-    }, process.env.TOTP_PERIOD)
+    }, 10)
 }
 generateTokenLoop()
 
