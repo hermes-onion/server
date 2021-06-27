@@ -2,26 +2,9 @@
 
 const ProxyAgent = require('socks-proxy-agent')
 const IO = require('socket.io-client')
-const {totp} = require('otplib')
 const log = require('../util/log')
 const getXmrUsd = require('../util/getXmrUsd')
 const UsersModel = require('../model/users')
-
-totp.options = {
-    digits: parseInt(process.env.TOTP_DIGITS),
-    step: parseInt(process.env.TOTP_PERIOD),
-}
-
-// generates TOTP token
-let token = ''
-const generateTokenLoop = function(){
-    token = totp.generate(Buffer.from(process.env.TOTP_SECRET, 'base64'))
-    
-    setTimeout(()=>{
-        generateTokenLoop()
-    }, 10)
-}
-generateTokenLoop()
 
 // http agent used by IoClient
 const Agent = new ProxyAgent(`socks://${process.env.TOR_SOCKS_HOST}`)
@@ -30,11 +13,11 @@ const Agent = new ProxyAgent(`socks://${process.env.TOR_SOCKS_HOST}`)
 const IoClient = new IO(`ws://${process.env.WINTER_HOST}`, {
     agent: Agent,
     extraHeaders: {
-        authorization: `Bearer ${token }`
+        authorization: `Bearer ${process.env.WINTER_SECRET}`
     },
     transports: ["websocket"],
     reconnectionDelay: 1000,
-    reconnectionAttempts: Infinity,
+    reconnectionAttempts: 'Infinity',
     pingInterval: 1000*5,
     pingTimeout: 1000*10,
 })
@@ -47,11 +30,9 @@ IoClient.on('connect', async ()=>{
 
 IoClient.on('disconnect', ()=>{
     console.log('Winter disconnected!')
+    IoClient.connect()
 })
 
-IoClient.on('error', (data)=>{
-    console.log('Winter error', data)
-})
 
 /**
  * Event in case a TX from an account of a user is confirmed

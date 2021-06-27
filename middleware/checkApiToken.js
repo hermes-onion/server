@@ -5,7 +5,7 @@ module.exports = async (req, res, next)=>{
     try {
         let User = await UsersModel.findOne({
             where: ApiKey.decode(req.params.key),
-            attributes: ['id', 'suspended'],
+            attributes: ['id', 'suspended', 'balance'],
         })
 
         if(User && !User.suspended){

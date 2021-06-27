@@ -1,4 +1,4 @@
-const {t, redir, ApiKey, deleteUser, log, sendSMS,messageIsBlacklisted} = require('../util')
+const {t, redir, ApiKey, deleteUser, log, sendSMSThread} = require('../util')
 const { UsersModel, TicketChatModel, TicketsModel, SentMessagesModel, TofaTokens} = require('../model')
 const {ChangePasswordSchema, apiSendSMS} = require('../schemas')
 const {winter} = require('../server')
@@ -489,16 +489,8 @@ module.exports = {
                 }) )
             }
 
-            // check if message is blacklisted
-            if (await messageIsBlacklisted(req.body)){
-                return res.send( t('dash/sendDemoSMS', {
-                    apiKey: ApiKey.generate(User),
-                    User, 
-                }) )
-            }
-
             // pass request to the micromodule
-            sendSMS({...req.body, ...{user_id: User.id}})
+            sendSMSThread(User, req.body)
             .then(r=>{
                 res.send( t('dash/sendDemoSMS', {
                     apiKey: ApiKey.generate(User),

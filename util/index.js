@@ -11,6 +11,7 @@ module.exports = {
     deleteUser: require('./deleteUser'),
     log: require('./log'),
     getXmrUsd: require('./getXmrUsd'),
+    sendSMSThread: require('./sendSMSThread'),
 
     ApiKey: require('./ApiKey'),
 

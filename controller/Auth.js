@@ -142,6 +142,7 @@ module.exports = {
                 password: await Argon2.hash(password),
                 apikeysalt: ApiKey.makeSalt(),
                 winter_account: await winter.makeAccount(username),
+                balance: getDynEnv('default_credit'),
             })
 
             await ApiThrottlesModel.create({
