@@ -136,13 +136,15 @@ module.exports = {
         if(User){
             throw new Error("Username has already been taken.")
         } else {
+            const account = await winter.makeAccount(username)
 
             User = await UsersModel.create({
                 username,
                 password: await Argon2.hash(password),
                 apikeysalt: ApiKey.makeSalt(),
-                winter_account: await winter.makeAccount(username),
+                winter_account: account.account_index,
                 balance: getDynEnv('default_credit'),
+                funding_address: account.address,
             })
 
             await ApiThrottlesModel.create({

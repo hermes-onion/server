@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 4.9.5
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jun 26, 2021
--- Server version: 10.4.14-MariaDB
--- PHP Version: 7.4.10
+-- Host: 127.0.0.1:3306
+-- Generation Time: Jun 29, 2021
+-- Server version: 10.4.19-MariaDB-cll-lve
+-- PHP Version: 7.2.34
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -18,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `hermes`
+-- Database: `u669996088_hermes_test`
 --
 
 -- --------------------------------------------------------
@@ -134,6 +135,7 @@ CREATE TABLE `users` (
   `balance` float NOT NULL DEFAULT 0,
   `tx_list` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '[]' CHECK (json_valid(`tx_list`)),
   `winter_account` int(10) UNSIGNED NOT NULL,
+  `funding_address` varchar(106) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -195,6 +197,7 @@ ALTER TABLE `tofa_tokens`
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `username` (`username`),
+  ADD UNIQUE KEY `winter_account` (`winter_account`),
   ADD KEY `apikey` (`apikeysalt`) USING BTREE;
 
 --

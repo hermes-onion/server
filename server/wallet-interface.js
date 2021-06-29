@@ -16,10 +16,15 @@ const IoClient = new IO(`ws://${process.env.WINTER_HOST}`, {
         authorization: `Bearer ${process.env.WINTER_SECRET}`
     },
     transports: ["websocket"],
-    reconnectionDelay: 1000,
-    reconnectionAttempts: 'Infinity',
+
+    /**
+     * crap settings. never worked as expected. gave up
+     */
+    reconnectionDelay: 50,
+    reconnectionAttempts: Infinity,
+    connectTimeout: 5000,
     pingInterval: 1000*5,
-    pingTimeout: 1000*10,
+    pingTimeout: 1000*5,
 })
 
 console.log(`Winter connecting ${process.env.WINTER_HOST}...`)
@@ -54,8 +59,9 @@ IoClient.on('tx-confirmed', async json=>{
     
     // finally update balance && tx_list
     await User.update({
-        balance: User.balance + (await getXmrUsd() * (json['balance']['_d'][1] / 100000)),
+        balance: User.balance + (await getXmrUsd() * (json.balance / 1000000000000)),
         tx_list: User.tx_list.concat([json.txId]),
+        funding_address: json['new-funding-address'].address
     })
     log('balance && tx list updated!')
 })
@@ -67,33 +73,6 @@ IoClient.on('tx-confirmed', async json=>{
  */
 class Winter {
     /**
-     * Retrieves the wallet address of an account from index
-     * 
-     * @param {int} account_index
-     * @returns {Promise}
-     */
-    static getWalletOfAccount(account_index){
-        return new Promise((accept, reject)=>{
-            try {
-                log('retrieving address...')
-
-                IoClient.emit('get-address-of-account', account_index)
-                IoClient.once('get-address-of-account-res', json=>{
-                    if(json.success) {
-                        log('address retrieved')
-                        accept(json.address)
-                    }
-                    else throw new Error('winter error occurred')
-                })
-
-            } catch(e) {
-                log(`could not retrieve address`)
-                reject(e)
-            }
-        })
-    }
-
-    /**
      * Creates an account with a custom label and returns it's index
      * 
      * @param {string} label
@@ -104,16 +83,50 @@ class Winter {
             try {
                 log('making account...')
 
-                IoClient.emit('make-account', label)
-                IoClient.once('make-account-res', json=>{
+                const rid = Math.floor(Math.random()*10000)
+
+                IoClient.emit('make-account', {
+                    label, rid
+                })
+                IoClient.once(`make-account-res-${rid}`, json=>{
                     if(json.success) {
-                        log(`account created, index: ${json.index}`)
-                        accept(json.index)
+                        log(`account created: ${json.account}`)
+                        accept(json.account)
                     }
                     else throw new Error('winter error occurred')
                 })
             } catch(e) {
                 log(`could not create account`)
+                reject(e)
+            }
+        })
+    }
+    
+    /**
+     * Returns primary address of account
+     * 
+     * @param {int} account_index 
+     * @returns {Promise}
+     */
+    static getAccountAddress(account_index){
+        return new Promise((accept, reject)=>{
+            try {
+                log('get address...')
+
+                const rid = Math.floor(Math.random()*10000)
+
+                IoClient.emit('get-account-address', {
+                    account_index, rid
+                })
+                IoClient.once(`get-account-address-res-${rid}`, json=>{
+                    if(json.success) {
+                        log(`address retrieved`)
+                        accept(json.address)
+                    }
+                    else throw new Error('winter error occurred')
+                })
+            } catch(e) {
+                log(`could not get address`)
                 reject(e)
             }
         })

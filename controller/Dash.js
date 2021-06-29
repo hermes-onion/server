@@ -14,7 +14,7 @@ const getXmrUsd = require('../util/getXmrUsd')
  * reusable method for current controllers set
  * 
  * @param {int} id 
- * @param {bool} getWallet 
+ * @param {bool} getWallet dissolved, not working anymore
  * @param {bool} getBalance 
  * @returns 
  */
@@ -27,7 +27,7 @@ const getUser = async (id, getWallet = false, getBalance = false)=>{
         }],
     })
 
-    if(getWallet) User.winter_address = await winter.getWalletOfAccount(User.winter_account)
+    //if(getWallet) User.winter_address = await winter.getWalletOfAccount(User.winter_account)
     if(getBalance) User.remaining_sms = Math.round(User.balance / getDynEnv('sms_price'))
 
     return User

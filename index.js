@@ -42,7 +42,7 @@ const tofaInit = require('tofa-server-js').init;
 
     const Server = sHttp(App)
 
-    //const {winter} = require('./server')
+    const {winter} = require('./server')
     // console.log(
     //     await winter.getWalletOfAccount( 4 )
     // )
