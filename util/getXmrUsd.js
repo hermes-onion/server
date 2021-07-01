@@ -2,15 +2,15 @@ const axios = require('axios')
 
 /**
  * Retrieves the exchange rate of XMRUSD pair.
- * Currently at Bitfinex rate.
+ * Currently at Binance rate.
  * 
  * @returns {Promise} float
  */
 module.exports = async ()=>{
     return new Promise((accept, reject)=>{
-        axios.get('https://api.bitfinex.com/v1/pubticker/xmrusd')
+        axios.get('https://api.binance.com/api/v3/ticker/price?symbol=XMRUSDT')
         .then(res=>{
-            accept(res.data.mid)
+            accept(res.data.price)
         })
         .catch(err=>reject(err))
     })
